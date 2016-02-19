@@ -6,11 +6,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiket", "Tiket\Tiket.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiket.Tests", "Tiket.Tests\Tiket.Tests.csproj", "{DC293506-F1B3-4FEE-889B-531E084D78F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D5EB58C7-8204-4CCC-B1A9-962323F8CB29}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{D5EB58C7-8204-4CCC-B1A9-962323F8CB29}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4A966DBD-16B6-49DA-8E6C-3D260BC61CF9}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\build.cmd = scripts\build.cmd
 	EndProjectSection
 EndProject
 Global
