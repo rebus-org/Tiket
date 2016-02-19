@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using NUnit.Framework;
 
-namespace Reincheck.Tests
+namespace Tiket.Tests
 {
     public abstract class FixtureBase
     {

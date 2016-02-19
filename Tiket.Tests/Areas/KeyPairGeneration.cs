@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using NUnit.Framework;
 
-namespace Reincheck.Tests.Areas
+namespace Tiket.Tests.Areas
 {
     [TestFixture]
     public class KeyPairGeneration : FixtureBase

@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reincheck", "Reincheck\Reincheck.csproj", "{9E28C0EA-AC65-459C-B993-6F1DB7099E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiket", "Tiket\Tiket.csproj", "{9E28C0EA-AC65-459C-B993-6F1DB7099E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reincheck.Tests", "Reincheck.Tests\Reincheck.Tests.csproj", "{DC293506-F1B3-4FEE-889B-531E084D78F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiket.Tests", "Tiket.Tests\Tiket.Tests.csproj", "{DC293506-F1B3-4FEE-889B-531E084D78F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

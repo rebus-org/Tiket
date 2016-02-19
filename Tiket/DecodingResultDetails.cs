@@ -1,4 +1,4 @@
-﻿namespace Reincheck
+﻿namespace Tiket
 {
     /// <summary>
     /// Gives details about the reason why a token might have been deemed to be invalid

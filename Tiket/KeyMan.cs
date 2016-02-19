@@ -5,9 +5,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
-using Reincheck.Internals;
+using Tiket.Internals;
 
-namespace Reincheck
+namespace Tiket
 {
     /// <summary>
     /// Use the <see cref="KeyMan"/> to generate keys and to encode/decode claims to/from secure tokens

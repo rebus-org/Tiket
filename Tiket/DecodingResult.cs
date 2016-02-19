@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Reincheck
+namespace Tiket
 {
     /// <summary>
     /// Gets the result of decoding a token

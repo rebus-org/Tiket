@@ -7,8 +7,8 @@
     <ProjectGuid>{DC293506-F1B3-4FEE-889B-531E084D78F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Reincheck.Tests</RootNamespace>
-    <AssemblyName>Reincheck.Tests</AssemblyName>
+    <RootNamespace>Tiket.Tests</RootNamespace>
+    <AssemblyName>Tiket.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Reincheck\Reincheck.csproj">
+    <ProjectReference Include="..\Tiket\Tiket.csproj">
       <Project>{9E28C0EA-AC65-459C-B993-6F1DB7099E59}</Project>
-      <Name>Reincheck</Name>
+      <Name>Tiket</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

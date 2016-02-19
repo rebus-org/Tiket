@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Reincheck.Internals
+namespace Tiket.Internals
 {
     class CryptoInitializer
     {

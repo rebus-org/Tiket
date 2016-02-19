@@ -7,8 +7,8 @@
     <ProjectGuid>{9E28C0EA-AC65-459C-B993-6F1DB7099E59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Reincheck</RootNamespace>
-    <AssemblyName>Reincheck</AssemblyName>
+    <RootNamespace>Tiket</RootNamespace>
+    <AssemblyName>Tiket</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Reincheck.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Tiket.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

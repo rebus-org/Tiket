@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Reincheck.Internals;
+using Tiket.Internals;
 
-namespace Reincheck.Tests.Areas
+namespace Tiket.Tests.Areas
 {
     [TestFixture]
     public class Signing : FixtureBase

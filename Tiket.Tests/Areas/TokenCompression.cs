@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace Reincheck.Tests.Areas
+namespace Tiket.Tests.Areas
 {
     [TestFixture]
     public class TokenCompression : FixtureBase
