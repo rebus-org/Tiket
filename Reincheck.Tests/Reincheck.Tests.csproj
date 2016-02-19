@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Expiration.cs" />
     <Compile Include="FixtureBase.cs" />
     <Compile Include="Areas\KeyPairGeneration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

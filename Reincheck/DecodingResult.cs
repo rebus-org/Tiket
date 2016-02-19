@@ -4,15 +4,17 @@ namespace Reincheck
 {
     public class DecodingResult
     {
-        public string Token { get; }
         public IDictionary<string, string> Properties { get; }
-        public bool IsValid { get; }
 
-        public DecodingResult(string token, IDictionary<string, string> properties, bool isValid)
+        public DecodingResultDetails Details { get; }
+
+        public bool IsValid => Details.HasValidSignature
+                               && !Details.IsExpired;
+
+        public DecodingResult(IDictionary<string, string> properties, DecodingResultDetails details)
         {
-            Token = token;
             Properties = properties;
-            IsValid = isValid;
+            Details = details;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,6 +13,11 @@ namespace Reincheck
     /// </summary>
     public class KeyMan : IDisposable
     {
+        public class Properties
+        {
+            public const string Exp = "exp";
+        }
+
         const string PartSeparatorChar = "|";
 
         /// <summary>
@@ -40,9 +46,11 @@ namespace Reincheck
             var jsonText = JsonConvert.SerializeObject(properties);
             var firstPart = Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonText));
 
-            return firstPart 
-                + PartSeparatorChar 
-                + GenerateSignature(firstPart);
+            var encodedToken = firstPart
+                               + PartSeparatorChar
+                               + GenerateSignature(firstPart);
+
+            return encodedToken;
         }
 
         public DecodingResult Decode(string token)
@@ -57,14 +65,26 @@ namespace Reincheck
                 }
 
                 var properties = Deserialize(parts[0]);
-                var isValid = CanValidateSignature(parts[0], parts[1]);
+                var hasValidSignature = CanValidateSignature(parts[0], parts[1]);
+                var isExpired = IsExpired(properties);
 
-                return new DecodingResult(token, properties, isValid);
+                return new DecodingResult(properties, new DecodingResultDetails(hasValidSignature, isExpired));
             }
             catch (Exception exception)
             {
                 throw new CryptographicException("Could not decode token", exception);
             }
+        }
+
+        static bool IsExpired(IDictionary<string, string> properties)
+        {
+            string exp;
+
+            if (!properties.TryGetValue(Properties.Exp, out exp)) return false;
+
+            var expirationTime = DateTimeOffset.ParseExact(exp, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+
+            return expirationTime < DateTimeOffset.Now;
         }
 
         static Dictionary<string, string> Deserialize(string tokenPart)

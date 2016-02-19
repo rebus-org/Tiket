@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+
+namespace Reincheck.Tests.Areas
+{
+    [TestFixture]
+    public class Expiration : FixtureBase
+    {
+        KeyMan _keyMan;
+
+        protected override void SetUp()
+        {
+            _keyMan = new KeyMan(ValidKey);
+
+            Using(_keyMan);
+        }
+
+        [Test]
+        public void CanDetermineWhetherTokenIsExpired()
+        {
+            var expirationTimeInThePast = DateTimeOffset.Now.AddMinutes(-2).ToString("O");
+
+            var properties = new Dictionary<string, string>
+            {
+                {KeyMan.Properties.Exp, expirationTimeInThePast}
+            };
+
+            var token = _keyMan.Encode(properties);
+
+            var result = _keyMan.Decode(token);
+
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Details.HasValidSignature, Is.True);
+            Assert.That(result.Details.IsExpired, Is.True);
+        }
+    }
+}
