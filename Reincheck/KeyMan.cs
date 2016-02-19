@@ -82,7 +82,11 @@ namespace Reincheck
         /// </summary>
         public string Encode(IDictionary<string, string> properties)
         {
-            var jsonText = JsonConvert.SerializeObject(properties);
+            var clone = Clone(properties);
+
+            clone[Properties.IssuedAt] = DateTimeOffset.Now.ToString("O");
+
+            var jsonText = JsonConvert.SerializeObject(clone);
             var firstPart = Convert.ToBase64String(Encoding.UTF8.GetBytes(jsonText));
 
             var encodedToken = firstPart
@@ -90,6 +94,11 @@ namespace Reincheck
                                + GenerateSignature(firstPart);
 
             return Convert.ToBase64String(_zipper.Zip(Encoding.ASCII.GetBytes(encodedToken)));
+        }
+
+        static IDictionary<string, string> Clone(IDictionary<string, string> properties)
+        {
+            return new Dictionary<string, string>(properties);
         }
 
         /// <summary>
