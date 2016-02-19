@@ -50,7 +50,7 @@ echo.
 echo     %mergedir%\Tiket.dll
 echo.
 
-%ilmerge% /out:%mergedir%\Tiket.dll %releasedir%\Tiket.dll %releasedir%\Newtonsoft.Json.dll /targetplatform:"v4"
+%ilmerge% /out:%mergedir%\Tiket.dll %releasedir%\Tiket.dll %releasedir%\Newtonsoft.Json.dll /targetplatform:"v4,%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /internalize
 
 echo Packing...
 
