@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Reincheck
 {
     class CryptoInitializer
     {
-        public static RSACryptoServiceProvider GetFromKey(string keyXml)
+        const int KeySize = 2048;
+
+        public static RSACryptoServiceProvider GetFromKey(string key)
         {
-            if (string.IsNullOrWhiteSpace(keyXml))
+            if (string.IsNullOrWhiteSpace(key))
             {
                 throw NewCryptographicHelpException(null, @"KeyMan created with an empty key as argument.");
             }
@@ -15,8 +18,10 @@ namespace Reincheck
             try
             {
                 var provider = NewProvider();
+                var keyBytes = Convert.FromBase64String(key);
+                var xml = Encoding.UTF8.GetString(keyBytes);
 
-                provider.FromXmlString(keyXml);
+                provider.FromXmlString(xml);
 
                 return provider;
             }
@@ -28,34 +33,37 @@ namespace Reincheck
 
         static CryptographicException NewCryptographicHelpException(Exception e, string problemDescription)
         {
-            var suggestedKeyXml = GenerateNewKeyXml();
+            var suggestedKey = GenerateNewKey();
 
             return new CryptographicException(problemDescription + $@"
 
 If you are not sure which key to use, you can have this new and fresh one:
 
-{suggestedKeyXml}
+{suggestedKey}
 
 To use the key, just copy/paste the full contents of the line above and start using it.
 
 Please ensure that the key IS NOT SHARED WITH ANYONE!", e);
         }
 
-        static string GenerateNewKeyXml()
+        public static string GenerateNewKey()
         {
             using (var provider = NewProvider())
             {
                 var xmlString = provider.ToXmlString(true);
-
-                return xmlString;
+                var keyBytes = Encoding.UTF8.GetBytes(xmlString);
+                var key = Convert.ToBase64String(keyBytes);
+                return key;
             }
         }
 
+        const bool FuckNoWhyWouldYouDoThat = false;
+
         static RSACryptoServiceProvider NewProvider()
         {
-            return new RSACryptoServiceProvider(2048)
+            return new RSACryptoServiceProvider(KeySize)
             {
-                PersistKeyInCsp = false
+                PersistKeyInCsp = FuckNoWhyWouldYouDoThat
             };
         }
     }

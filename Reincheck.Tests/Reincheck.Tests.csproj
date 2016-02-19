@@ -45,8 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FixtureBase.cs" />
-    <Compile Include="KeyPairGeneration.cs" />
+    <Compile Include="Areas\KeyPairGeneration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Areas\Signing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
