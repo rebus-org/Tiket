@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Reincheck
+namespace Reincheck.Internals
 {
     class CryptoInitializer
     {

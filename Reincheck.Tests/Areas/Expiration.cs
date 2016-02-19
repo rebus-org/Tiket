@@ -23,7 +23,7 @@ namespace Reincheck.Tests.Areas
 
             var properties = new Dictionary<string, string>
             {
-                {KeyMan.Properties.Exp, expirationTimeInThePast}
+                {KeyMan.Properties.ExpirationTime, expirationTimeInThePast}
             };
 
             var token = _keyMan.Encode(properties);
@@ -33,6 +33,26 @@ namespace Reincheck.Tests.Areas
             Assert.That(result.IsValid, Is.False);
             Assert.That(result.Details.HasValidSignature, Is.True);
             Assert.That(result.Details.IsExpired, Is.True);
+        }
+
+        [Test]
+        public void CanDetermineWhetherTokenHasNotBecomeValidYet()
+        {
+            var validTimeInTheFuture = DateTimeOffset.Now.AddMinutes(2).ToString("O");
+
+            var properties = new Dictionary<string, string>
+            {
+                {KeyMan.Properties.NotBefore, validTimeInTheFuture}
+            };
+
+            var token = _keyMan.Encode(properties);
+
+            var result = _keyMan.Decode(token);
+
+            Assert.That(result.IsValid, Is.False);
+            Assert.That(result.Details.HasValidSignature, Is.True);
+            Assert.That(result.Details.IsExpired, Is.False);
+            Assert.That(result.Details.IsNotValidYet, Is.True);
         }
     }
 }

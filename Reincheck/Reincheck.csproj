@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CryptoInitializer.cs" />
+    <Compile Include="Internals\CryptoInitializer.cs" />
     <Compile Include="DecodingResult.cs" />
     <Compile Include="DecodingResultDetails.cs" />
     <Compile Include="KeyMan.cs" />
