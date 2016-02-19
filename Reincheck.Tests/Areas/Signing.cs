@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using NUnit.Framework;
+using Reincheck.Internals;
 
 namespace Reincheck.Tests.Areas
 {
@@ -57,11 +60,41 @@ TAMPERED token:
 
         static string TamperSomehow(string token)
         {
-            var firstPart = token.Substring(0, 10);
-            var middlePart = "aa";
-            var secondPart = token.Substring(12);
+            var zipper = new Zipper();
 
-            return firstPart + middlePart + secondPart;
+            var zippedBytes = Convert.FromBase64String(token);
+
+            var str = Encoding.ASCII.GetString(zipper.Unzip(zippedBytes));
+
+            Console.WriteLine("Unzipped contents:");
+            Console.WriteLine(str);
+            Console.WriteLine();
+
+            var parts = str.Split(new [] {"|"}, StringSplitOptions.RemoveEmptyEntries);
+
+            var jsonText = Encoding.UTF8.GetString(Convert.FromBase64String(parts[0]));
+
+            Console.WriteLine("First part as JSON:");
+            Console.WriteLine(jsonText);
+            Console.WriteLine();
+
+            var tamperedJsonText = jsonText.Replace(@"""joe""", @"""moe""");
+
+            Console.WriteLine("Tampered JSON:");
+            Console.WriteLine(tamperedJsonText);
+            Console.WriteLine();
+
+            var newStr = Convert.ToBase64String(Encoding.UTF8.GetBytes(tamperedJsonText))
+                         + "|"
+                         + parts[1];
+
+            Console.WriteLine("New unzipped contents:");
+            Console.WriteLine(newStr);
+            Console.WriteLine();
+
+            var tamperedZippedBytes = zipper.Zip(Encoding.ASCII.GetBytes(newStr));
+
+            return Convert.ToBase64String(tamperedZippedBytes);
         }
     }
 }
