@@ -2,9 +2,9 @@
 
 A simple .NET token library.
 
-Inspired by [JWT] - not quite JWT though, because encryption is mandatory, and only 256 bit AES is available.
+Inspired by [JWT], but not quite JWT: encryption is mandatory, and only 256 bit AES is available.
 
-The principle is the same though: A secure token consists of a bunch of tamper-proof claims.
+The principle is the same though: A secure token consists of a bunch of tamper-proof claims. Claims exist for standard stuff like expiration.
 
 ## How to use it?
 
