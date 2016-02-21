@@ -57,8 +57,7 @@ namespace Tiket
             return CryptoInitializer.GenerateNewKey();
         }
 
-        readonly RSACryptoServiceProvider _cryptoServiceProvider;
-        readonly string _hashAlgoOid = CryptoConfig.MapNameToOID("SHA1");
+        readonly AesCryptoServiceProvider _cryptoServiceProvider;
         readonly Zipper _zipper = new Zipper();
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace Tiket
                                + PartSeparatorChar
                                + GenerateSignature(firstPart);
 
-            return Convert.ToBase64String(_zipper.Zip(Encoding.ASCII.GetBytes(encodedToken)));
+            return Convert.ToBase64String(Encrypt(encodedToken));
         }
 
         static IDictionary<string, string> Clone(IDictionary<string, string> properties)
@@ -109,7 +108,7 @@ namespace Tiket
         {
             try
             {
-                var encodedToken = Encoding.ASCII.GetString(_zipper.Unzip(Convert.FromBase64String(token)));
+                var encodedToken = Encoding.ASCII.GetString(_zipper.Unzip(Decrypt(token)));
 
                 var parts = encodedToken.Split(new[] { PartSeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -128,6 +127,36 @@ namespace Tiket
             catch (Exception exception)
             {
                 throw new CryptographicException("Could not decode token", exception);
+            }
+        }
+
+        byte[] Decrypt(string token)
+        {
+            var bytes = Convert.FromBase64String(token);
+
+            using (var decryptor = _cryptoServiceProvider.CreateDecryptor())
+            using (var destination = new MemoryStream())
+            using (var cryptoStream = new CryptoStream(destination, decryptor, CryptoStreamMode.Write))
+            {
+                cryptoStream.Write(bytes, 0, bytes.Length);
+                cryptoStream.FlushFinalBlock();
+
+                return destination.ToArray();
+            }
+        }
+
+        byte[] Encrypt(string encodedToken)
+        {
+            var bytes = _zipper.Zip(Encoding.ASCII.GetBytes(encodedToken));
+
+            using (var encryptor = _cryptoServiceProvider.CreateEncryptor())
+            using (var destination = new MemoryStream())
+            using (var cryptoStream = new CryptoStream(destination, encryptor, CryptoStreamMode.Write))
+            {
+                cryptoStream.Write(bytes, 0, bytes.Length);
+                cryptoStream.FlushFinalBlock();
+
+                return destination.ToArray();
             }
         }
 
@@ -175,7 +204,7 @@ namespace Tiket
                 using (var inputStream = new MemoryStream(jsonBytes))
                 {
                     var hashBytes = hashish.ComputeHash(inputStream);
-                    var digest = _cryptoServiceProvider.SignHash(hashBytes, _hashAlgoOid);
+                    var digest = Encrypt(Convert.ToBase64String(hashBytes));
                     var signature = Convert.ToBase64String(digest);
                     return signature;
                 }

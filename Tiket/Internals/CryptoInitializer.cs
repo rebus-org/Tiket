@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Tiket.Internals
 {
     class CryptoInitializer
     {
-        const int KeySize = 2048;
-
-        public static RSACryptoServiceProvider GetFromKey(string key)
+        public static AesCryptoServiceProvider GetFromKey(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -18,10 +15,10 @@ namespace Tiket.Internals
             try
             {
                 var provider = NewProvider();
-                var keyBytes = Convert.FromBase64String(key);
-                var xml = Encoding.UTF8.GetString(keyBytes);
+                var parts = key.Split('|');
 
-                provider.FromXmlString(xml);
+                provider.Key = Convert.FromBase64String(parts[0]);
+                provider.IV = Convert.FromBase64String(parts[1]);
 
                 return provider;
             }
@@ -50,21 +47,19 @@ Please ensure that the key IS NOT SHARED WITH ANYONE!", e);
         {
             using (var provider = NewProvider())
             {
-                var xmlString = provider.ToXmlString(true);
-                var keyBytes = Encoding.UTF8.GetBytes(xmlString);
-                var key = Convert.ToBase64String(keyBytes);
-                return key;
+                provider.GenerateIV();
+                provider.GenerateKey();
+
+                var key = Convert.ToBase64String(provider.Key);
+                var iv = Convert.ToBase64String(provider.IV);
+
+                return $"{key}|{iv}";
             }
         }
 
-        const bool FuckNoWhyWouldYouDoThat = false;
-
-        static RSACryptoServiceProvider NewProvider()
+        static AesCryptoServiceProvider NewProvider()
         {
-            return new RSACryptoServiceProvider(KeySize)
-            {
-                PersistKeyInCsp = FuckNoWhyWouldYouDoThat
-            };
+            return new AesCryptoServiceProvider { KeySize = 256 };
         }
     }
 }

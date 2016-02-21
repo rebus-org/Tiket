@@ -47,6 +47,7 @@
     <Compile Include="Areas\AutoProperties.cs" />
     <Compile Include="Areas\Expiration.cs" />
     <Compile Include="Areas\TokenCompression.cs" />
+    <Compile Include="Assumptions\EncryptionCheck.cs" />
     <Compile Include="FixtureBase.cs" />
     <Compile Include="Areas\KeyPairGeneration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
