@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security;
 
 namespace Tiket
 {
@@ -29,5 +30,15 @@ namespace Tiket
         public bool IsValid => Details.HasValidSignature
                                && !Details.IsNotValidYet
                                && !Details.IsExpired;
+
+        /// <summary>
+        /// Checks that the result is valid. If it is not valid, a <see cref="SecurityException"/> is thrown with some hints on why the key was not valid.
+        /// </summary>
+        public void ThrowIfInvalid()
+        {
+            if (IsValid) return;
+
+            throw new SecurityException($"The key is not valid! (has valid signature: {Details.HasValidSignature}, is not valid yet: {Details.IsNotValidYet}, is expired: {Details.IsExpired})");
+        }
     }
 }

@@ -11,3 +11,7 @@
 # 1.0.3
 
 * Changed to 256 bit AES
+
+# 1.0.4
+
+* Provide `ThrowIfInvalid` method on the decoding result
