@@ -10,4 +10,4 @@
 
 # 1.0.3
 
-* Changes to 256 bit AES
+* Changed to 256 bit AES
