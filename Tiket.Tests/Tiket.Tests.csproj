@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Areas\AutoProperties.cs" />
     <Compile Include="Areas\Expiration.cs" />
+    <Compile Include="Areas\MasterKeyGeneration.cs" />
     <Compile Include="Areas\TokenCompression.cs" />
     <Compile Include="Assumptions\EncryptionCheck.cs" />
     <Compile Include="FixtureBase.cs" />

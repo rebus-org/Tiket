@@ -140,7 +140,6 @@ namespace Tiket
             {
                 cryptoStream.Write(bytes, 0, bytes.Length);
                 cryptoStream.FlushFinalBlock();
-
                 return destination.ToArray();
             }
         }
@@ -155,7 +154,6 @@ namespace Tiket
             {
                 cryptoStream.Write(bytes, 0, bytes.Length);
                 cryptoStream.FlushFinalBlock();
-
                 return destination.ToArray();
             }
         }
@@ -163,22 +161,16 @@ namespace Tiket
         static bool IsExpired(IDictionary<string, string> properties)
         {
             string exp;
-
             if (!properties.TryGetValue(Properties.ExpirationTime, out exp)) return false;
-
             var expirationTime = DateTimeOffset.ParseExact(exp, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
-
             return expirationTime < DateTimeOffset.Now;
         }
 
         static bool IsNotValidYet(IDictionary<string, string> properties)
         {
             string notBefore;
-
             if (!properties.TryGetValue(Properties.NotBefore, out notBefore)) return false;
-
             var validFromTime = DateTimeOffset.ParseExact(notBefore, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
-
             return validFromTime >= DateTimeOffset.Now;
         }
 
