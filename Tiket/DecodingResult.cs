@@ -27,7 +27,8 @@ namespace Tiket
         /// <summary>
         /// Gets whether the token is valid. Composed of multiple checks of the details from <see cref="Details"/>.
         /// </summary>
-        public bool IsValid => Details.HasValidSignature
+        public bool IsValid => Details.IsCorrectFormat
+                               && Details.HasValidSignature
                                && !Details.IsNotValidYet
                                && !Details.IsExpired;
 

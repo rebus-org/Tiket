@@ -15,3 +15,7 @@
 # 1.0.4
 
 * Provide `ThrowIfInvalid` method on the decoding result
+
+# 2.0.0
+
+* Add graceful handling of garbage input
