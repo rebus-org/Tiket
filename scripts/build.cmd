@@ -1,41 +1,79 @@
 @echo off
 
-set version=%1
-set currentdir=%~dp0
-set root=%currentdir%\..
-set toolsdir=%root%\tools
-set ilmerge=%toolsdir%\Ilmerge\ilmerge.exe
-set nuget=%toolsdir%\NuGet\NuGet.exe
-set tiketdir=%root%\Tiket
+set name=%1
+set version=%2
+set reporoot=%~dp0\..
+
+set tiketdir=%reporoot%\Tiket
 set releasedir=%tiketdir%\bin\Release
 set mergedir=%releasedir%\merged
-set deploydir=%root%\deploy
 
-if "%version%"=="" (
-	echo Please specify which version to build as a parameter.
-	echo.
-	goto exit
+if "%name%"=="" (
+  echo Please remember to specify the name to build as an argument.
+  goto exit_fail
 )
 
-echo This will build, tag, and release version %version% of Tiket.
-echo.
-echo Please make sure that all changes have been properly committed!
-pause
-
+if "%version%"=="" (
+  echo Please remember to specify which version to build as an argument.
+  goto exit_fail
+)
 
 if exist "%mergedir%" (
 	echo Cleaning up old merge dir %mergedir%
 	rd %mergedir% /s/q
 )
 
-if exist "%deploydir%" (
-	echo Cleaning up old deploy dir %deploydir%
-	rd %deploydir% /s/q
+set msbuild=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
+
+if not exist "%msbuild%" (
+  echo Could not find MSBuild here:
+  echo.
+  echo   "%msbuild%"
+  echo.
+  goto exit_fail
 )
 
-echo Building version %version%
+set sln=%reporoot%\%name%.sln
 
-msbuild %tiketdir%\Tiket.csproj /p:Configuration=Release
+if not exist "%sln%" (
+  echo Could not find SLN to build here:
+  echo.
+  echo    "%sln%"
+  echo.
+  goto exit_fail
+)
+
+set nuget=%reporoot%\tools\NuGet\NuGet.exe
+
+if not exist "%nuget%" (
+  echo Could not find NuGet here:
+  echo.
+  echo    "%nuget%"
+  echo.
+  goto exit_fail
+)
+
+set ilmerge=%reporoot%\tools\Ilmerge\ilmerge.exe
+
+if not exist "%ilmerge%" (
+  echo Could not find IlMerge here:
+  echo.
+  echo    "%ilmerge%"
+  echo.
+  goto exit_fail
+)
+
+set destination=%reporoot%\deploy
+
+if exist "%destination%" (
+  rd "%destination%" /s/q
+)
+
+mkdir "%destination%"
+if %ERRORLEVEL% neq 0 goto exit_fail
+
+"%msbuild%" "%sln%" /p:Configuration=Release /t:rebuild
+if %ERRORLEVEL% neq 0 goto exit_fail
 
 echo Creating merge dir %mergedir%
 mkdir %mergedir%
@@ -50,21 +88,21 @@ echo.
 echo     %mergedir%\Tiket.dll
 echo.
 
-%ilmerge% /out:%mergedir%\Tiket.dll %releasedir%\Tiket.dll %releasedir%\Newtonsoft.Json.dll /targetplatform:"v4,%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /internalize
+"%ilmerge%" "/out:%mergedir%\Tiket.dll" "%releasedir%\Tiket.dll" "%releasedir%\Newtonsoft.Json.dll" /targetplatform:"v4,%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" /internalize
+if %ERRORLEVEL% neq 0 goto exit_fail
 
-echo Packing...
+"%nuget%" pack "%name%\%name%.nuspec" -OutputDirectory "%destination%" -Version %version%
+if %ERRORLEVEL% neq 0 goto exit_fail
 
-echo Creating deploy dir %deploydir%
-mkdir %deploydir%
+goto exit
 
-%nuget% pack %tiketdir%\Tiket.nuspec -OutputDirectory %deploydir% -Version %version%
 
-echo Tagging...
 
-git tag %version%
 
-echo Pushing to NuGet.org...
+:exit_fail
 
-%nuget% push %deploydir%\*.nupkg
+exit /b 1
+
+
 
 :exit
