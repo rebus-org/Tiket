@@ -52,10 +52,7 @@ namespace Tiket
         /// <summary>
         /// Generates a new key, which includes both public and private keys
         /// </summary>
-        public static string GenerateKey()
-        {
-            return CryptoInitializer.GenerateNewKey();
-        }
+        public static string GenerateKey() => CryptoInitializer.GenerateNewKey();
 
         readonly AesCryptoServiceProvider _cryptoServiceProvider;
         readonly Zipper _zipper = new Zipper();
@@ -72,10 +69,7 @@ namespace Tiket
         /// <summary>
         /// Disposes resources held by the key manager
         /// </summary>
-        public void Dispose()
-        {
-            _cryptoServiceProvider.Dispose();
-        }
+        public void Dispose() => _cryptoServiceProvider.Dispose();
 
         /// <summary>
         /// Encodes the given properties into a signed token
@@ -178,8 +172,7 @@ namespace Tiket
 
         static bool IsExpired(IDictionary<string, string> properties)
         {
-            string exp;
-            if (!properties.TryGetValue(Properties.ExpirationTime, out exp)) return false;
+            if (!properties.TryGetValue(Properties.ExpirationTime, out var exp)) return false;
             var expirationTime = DateTimeOffset.ParseExact(exp, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
             return expirationTime < DateTimeOffset.Now;
         }
