@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel;
 using NUnit.Framework;
+using Testy;
 
 namespace Tiket.Tests.Areas
 {

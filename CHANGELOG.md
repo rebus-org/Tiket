@@ -16,6 +16,7 @@
 
 * Provide `ThrowIfInvalid` method on the decoding result
 
-## 2.0.0-b01
+## 2.0.0
 
 * Add graceful handling of garbage input
+* Target .NET Standard 2.0

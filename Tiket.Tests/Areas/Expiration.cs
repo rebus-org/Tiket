@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Testy;
 
 namespace Tiket.Tests.Areas
 {
@@ -11,7 +12,7 @@ namespace Tiket.Tests.Areas
 
         protected override void SetUp()
         {
-            _keyMan = new KeyMan(ValidKey);
+            _keyMan = new KeyMan(TestConfig.ValidKey);
 
             Using(_keyMan);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using NUnit.Framework;
+using Testy;
 
 namespace Tiket.Tests.Areas
 {
@@ -10,7 +11,7 @@ namespace Tiket.Tests.Areas
         [Test]
         public void AcceptsValidKey()
         {
-            var keyMan = Using(new KeyMan(ValidKey));
+            var keyMan = Using(new KeyMan(TestConfig.ValidKey));
         }
 
         [Test]

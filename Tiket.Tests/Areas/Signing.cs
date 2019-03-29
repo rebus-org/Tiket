@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using Testy;
 using Tiket.Internals;
 
 namespace Tiket.Tests.Areas
@@ -12,7 +13,7 @@ namespace Tiket.Tests.Areas
         [Test]
         public void CanRoundtripToken()
         {
-            using (var keyMan = new KeyMan(ValidKey))
+            using (var keyMan = new KeyMan(TestConfig.ValidKey))
             {
                 var token = keyMan.Encode(new Dictionary<string, string>
                 {
@@ -33,7 +34,7 @@ namespace Tiket.Tests.Areas
         [Test, Ignore("cannot make this work after zipping")]
         public void CanRoundtripToken_TamperedTokenIsInvalid()
         {
-            using (var keyMan = new KeyMan(ValidKey))
+            using (var keyMan = new KeyMan(TestConfig.ValidKey))
             {
                 var token = keyMan.Encode(new Dictionary<string, string>
                 {
