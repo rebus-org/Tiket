@@ -5,7 +5,7 @@ namespace Tiket.Internals
 {
     class CryptoInitializer
     {
-        public static AesCryptoServiceProvider GetFromKey(string key)
+        public static Aes GetFromKey(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
             {

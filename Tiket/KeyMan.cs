@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Tiket.Internals;
+// ReSharper disable UnusedMember.Global
 
 namespace Tiket
 {
@@ -54,7 +55,7 @@ namespace Tiket
         /// </summary>
         public static string GenerateKey() => CryptoInitializer.GenerateNewKey();
 
-        readonly AesCryptoServiceProvider _cryptoServiceProvider;
+        readonly Aes _cryptoServiceProvider;
         readonly Zipper _zipper = new Zipper();
         static readonly Dictionary<string, string> NoProperties = new Dictionary<string, string>();
 
@@ -179,8 +180,7 @@ namespace Tiket
 
         static bool IsNotValidYet(IDictionary<string, string> properties)
         {
-            string notBefore;
-            if (!properties.TryGetValue(Properties.NotBefore, out notBefore)) return false;
+            if (!properties.TryGetValue(Properties.NotBefore, out var notBefore)) return false;
             var validFromTime = DateTimeOffset.ParseExact(notBefore, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
             return validFromTime >= DateTimeOffset.Now;
         }
@@ -207,8 +207,9 @@ namespace Tiket
                 using (var inputStream = new MemoryStream(jsonBytes))
                 {
                     var hashBytes = hashish.ComputeHash(inputStream);
-                    var digest = Encrypt(Convert.ToBase64String(hashBytes));
-                    var signature = Convert.ToBase64String(digest);
+                    //var digest = Encrypt(Convert.ToBase64String(hashBytes));
+                    //var signature = Convert.ToBase64String(digest);
+                    var signature = Convert.ToBase64String(hashBytes);
                     return signature;
                 }
             }

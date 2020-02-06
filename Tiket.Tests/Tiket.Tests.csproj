@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFrameworks>net462;netcoreapp2.2;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="microsoft.net.test.sdk" Version="16.0.1" />
-    <PackageReference Include="nunit3testadapter" Version="3.13.0" />
-    <PackageReference Include="testy" Version="0.0.4" />
+    <PackageReference Include="microsoft.net.test.sdk" Version="16.5.0" />
+    <PackageReference Include="nunit3testadapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="testy" Version="0.2.0" />
   </ItemGroup>
 
   <ItemGroup>
